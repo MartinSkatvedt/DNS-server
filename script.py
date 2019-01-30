@@ -7,7 +7,6 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((ip, port))
 
 def getFlags(flags):
-    
     byte1 = bytes(flags[0:1])
     byte2 = bytes(flags[1:2])
 
@@ -27,8 +26,7 @@ def getFlags(flags):
     return int(QR + OPCODE+AA+TC+RD, 2).to_bytes(1, byteorder="big")+int(RA+Z+RCODE, 2).to_bytes(1, byteorder="big")
 
 
-def getQuestionDomain(data): 
-    
+def getQuestionDomain(data):    
     state = 0
     expectLen = 0
     x = 0
@@ -55,8 +53,9 @@ def getQuestionDomain(data):
             expectLen = byte
 
     print (domainParts)
+
+
 def getResponse(data):
-  
     #Finner transactionID 
     transactionID = data[0:2]
     t_ID = ""    
