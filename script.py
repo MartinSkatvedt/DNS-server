@@ -30,10 +30,11 @@ def getQuestionDomain(data):
     state = 0
     expectLen = 0
     x = 0
-    
+    y = 0
+
     domainString = ""
     domainParts = []
-
+    
     for byte in data:
         if state == 1: 
 
@@ -41,6 +42,7 @@ def getQuestionDomain(data):
                 break
             
             x += 1
+            y += 1 
             domainString += chr(byte)
             
             if x == expectLen: 
@@ -52,8 +54,10 @@ def getQuestionDomain(data):
             state = 1
             expectLen = byte
 
-    print (domainParts)
 
+    questionType = data[y+3:y+5]
+
+    return (domainParts, questionType)
 
 def getResponse(data):
     #Finner transactionID 
@@ -69,8 +73,12 @@ def getResponse(data):
     QDCOUNT = b"\x00\x01"
 
     #Answer Count 
-    ADCOUNT = getQuestionDomain(data[12:])    
+    domainParts, questionType = getQuestionDomain(data[12:])    
 
+
+    print (domainParts) 
+    print (questionType) 
+    
 while 1: 
     data, addr = sock.recvfrom(512) 
 
